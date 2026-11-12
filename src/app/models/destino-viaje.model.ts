@@ -1,3 +1,5 @@
 export class DestinoViaje {
-    constructor(public nombre: string, public imagenUrl: string) {}
-  }
+  id: string = crypto.randomUUID();
+
+  constructor(public nombre: string, public imagenUrl: string, public votes: number = 0) {}
+}

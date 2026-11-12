@@ -1,11 +1,13 @@
-<div class="card-content">
-    <div class="card-img">
-      <img [src]="destino.imagenUrl" alt="">
-      <span><h4>Destino</h4></span>
-    </div>
-    <div class="card-desc">
-      <h3>{{ destino.nombre }}</h3>
-      <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Laboriosam, voluptatum! Dolor quo, perspiciatis voluptas totam</p>
-      <a href="#" class="btn-card">Read</a>
-    </div>
+<div class="card-content" style="cursor: pointer" (click)="elegir()">
+  <div class="card-img">
+    <img [src]="destino.imagenUrl" alt="">
+    <span><h4>Destino</h4></span>
   </div>
+  <div class="card-desc">
+    <h3>{{ destino.nombre }}</h3>
+    <p>Votos: {{ destino.votes }}</p>
+    <button type="button" class="btn btn-sm btn-success" (click)="voteUp(); $event.stopPropagation()">+1</button>
+    <button type="button" class="btn btn-sm btn-warning" (click)="voteDown(); $event.stopPropagation()">-1</button>
+    <button type="button" class="btn btn-sm btn-danger" (click)="borrar(); $event.stopPropagation()">Borrar</button>
+  </div>
+</div>

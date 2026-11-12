@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { ListaDestinosComponent } from './lista-destinos/lista-destinos.component';
 
 @Component({
   selector: 'app-root',
-  imports: [ListaDestinosComponent],
-  templateUrl: './app.html'
+  templateUrl: './app.html',
+  standalone: false
 })
 export class App {}

@@ -1,0 +1,20 @@
+<form [formGroup]="fg" (ngSubmit)="guardar()">
+    <div class="form-group">
+      <label for="nombre">Nombre</label>
+      <input type="text" id="nombre" class="form-control" formControlName="nombre" placeholder="Ingresar nombre...">
+      <div *ngIf="fg.get('nombre')?.hasError('required') && fg.get('nombre')?.touched" class="text-danger">
+        El nombre es obligatorio
+      </div>
+      <div *ngIf="fg.get('nombre')?.hasError('minLongNombre')" class="text-danger">
+        El nombre debe tener al menos {{ minLongitud }} caracteres
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="imagenUrl">Imagen Url</label>
+      <input type="text" id="imagenUrl" class="form-control" formControlName="url" placeholder="Ingresar url...">
+      <div *ngIf="fg.get('url')?.hasError('required') && fg.get('url')?.touched" class="text-danger">
+        La url es obligatoria
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="fg.invalid">Guardar!</button>
+  </form>
