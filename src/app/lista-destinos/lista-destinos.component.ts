@@ -2,7 +2,8 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { DestinoViaje } from '../models/destino-viaje.model';
-import { AppState, NuevoDestinoAction, ResetVotesAction } from '../models/destinos-viajes-state.model';
+import { DestinosApiClient } from '../models/destinos-api-client.model';
+import { AppState, ResetVotesAction } from '../models/destinos-viajes-state.model';
 
 @Component({
   selector: 'app-lista-destinos',
@@ -14,7 +15,7 @@ export class ListaDestinosComponent {
   destinos$: Observable<DestinoViaje[]>;
   updates: string[] = [];
 
-  constructor(private store: Store<AppState>) {
+  constructor(private store: Store<AppState>, private destinosApiClient: DestinosApiClient) {
     this.destinos$ = this.store.select(state => state.destinos.items);
     this.store.select(state => state.destinos.favorito).subscribe(d => {
       if (d != null) {
@@ -24,7 +25,7 @@ export class ListaDestinosComponent {
   }
 
   agregado(d: DestinoViaje) {
-    this.store.dispatch(new NuevoDestinoAction(d));
+    this.destinosApiClient.add(d);
     this.onItemAdded.emit(d);
   }
 

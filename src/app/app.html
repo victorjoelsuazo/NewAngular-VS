@@ -1,1 +1,6 @@
-<router-outlet></router-outlet>
+<div class="container mt-2">
+    <a routerLink="/home">Home</a>
+    <a routerLink="/login" class="ml-3" *ngIf="!auth.isLoggedIn()">Login</a>
+    <button type="button" class="btn btn-sm btn-outline-secondary ml-3" *ngIf="auth.isLoggedIn()" (click)="logout()">Salir</button>
+  </div>
+  <router-outlet></router-outlet>

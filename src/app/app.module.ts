@@ -1,20 +1,27 @@
-import { NgModule } from '@angular/core';
+import { NgModule, inject, provideAppInitializer } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { App } from './app';
+import { APP_CONFIG, APP_CONFIG_VALUE } from './app-config';
+import { AuthService, LocalAuthService } from './auth/auth.service';
+import { usuarioLogueadoGuard } from './auth/usuario-logueado.guard';
 import { DestinoViajeComponent } from './destino-viaje/destino-viaje.component';
 import { ListaDestinosComponent } from './lista-destinos/lista-destinos.component';
 import { FormDestinoViajeComponent } from './form-destino-viaje/form-destino-viaje.component';
+import { LoginComponent } from './login/login.component';
 import { reducers, DestinosViajesEffects } from './models/destinos-viajes-state.model';
+import { DestinosApiClient, DestinosApiClientViejo } from './models/destinos-api-client.model';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home', component: ListaDestinosComponent }
+  { path: 'login', component: LoginComponent },
+  { path: 'home', component: ListaDestinosComponent, canActivate: [usuarioLogueadoGuard] }
 ];
 
 @NgModule({
@@ -22,7 +29,8 @@ const routes: Routes = [
     App,
     DestinoViajeComponent,
     ListaDestinosComponent,
-    FormDestinoViajeComponent
+    FormDestinoViajeComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -31,6 +39,14 @@ const routes: Routes = [
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([DestinosViajesEffects]),
     StoreDevtoolsModule.instrument()
+  ],
+  providers: [
+    provideHttpClient(),
+    { provide: APP_CONFIG, useValue: APP_CONFIG_VALUE },
+    { provide: AuthService, useClass: LocalAuthService },
+    DestinosApiClient,
+    { provide: DestinosApiClientViejo, useExisting: DestinosApiClient },
+    provideAppInitializer(() => inject(DestinosApiClient).cargarDesdeDexie())
   ],
   bootstrap: [App]
 })
