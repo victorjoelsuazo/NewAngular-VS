@@ -1,0 +1,22 @@
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      - image: cimg/node:22.12-browsers
+    working_directory: ~/viajes
+    steps:
+      - checkout
+      - restore_cache:
+          key: viajes-{{ .Branch }}-{{ checksum "package-lock.json" }}
+      - run: npm ci
+      - save_cache:
+          key: viajes-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          paths:
+            - node_modules
+      - run: npm test -- --no-watch --no-progress
+
+workflows:
+  build_and_test:
+    jobs:
+      - build

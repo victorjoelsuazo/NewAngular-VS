@@ -3,6 +3,7 @@ import { Action, ActionReducerMap } from '@ngrx/store';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { map } from 'rxjs/operators';
 import { DestinoViaje } from './destino-viaje.model';
+import { TrackingState, reducerTracking, TrackingActions } from './tracking-state.model';
 
 // ESTADO
 export interface DestinosViajesState {
@@ -101,10 +102,12 @@ export function reducerDestinosViajes(
 // ESTADO GLOBAL
 export interface AppState {
   destinos: DestinosViajesState;
+  tracking: TrackingState;
 }
 
-export const reducers: ActionReducerMap<AppState, DestinosViajesActions> = {
-  destinos: reducerDestinosViajes
+export const reducers: ActionReducerMap<AppState> = {
+  destinos: (state, action) => reducerDestinosViajes(state, action as DestinosViajesActions),
+  tracking: (state, action) => reducerTracking(state, action as TrackingActions)
 };
 
 // EFFECT: cuando se agrega un destino, se elige como favorito

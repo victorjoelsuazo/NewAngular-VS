@@ -14,9 +14,11 @@ export class ListaDestinosComponent {
   @Output() onItemAdded = new EventEmitter<DestinoViaje>();
   destinos$: Observable<DestinoViaje[]>;
   updates: string[] = [];
+  tags$: Observable<{ [tag: string]: number }>;
 
   constructor(private store: Store<AppState>, private destinosApiClient: DestinosApiClient) {
     this.destinos$ = this.store.select(state => state.destinos.items);
+    this.tags$ = this.store.select(state => state.tracking.tags);
     this.store.select(state => state.destinos.favorito).subscribe(d => {
       if (d != null) {
         this.updates.push('Se ha elegido a ' + d.nombre);

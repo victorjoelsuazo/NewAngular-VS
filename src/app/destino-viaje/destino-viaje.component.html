@@ -5,9 +5,12 @@
   </div>
   <div class="card-desc">
     <h3>{{ destino.nombre }}</h3>
-    <p>Votos: {{ destino.votes }}</p>
-    <button type="button" class="btn btn-sm btn-success" (click)="voteUp(); $event.stopPropagation()">+1</button>
-    <button type="button" class="btn btn-sm btn-warning" (click)="voteDown(); $event.stopPropagation()">-1</button>
-    <button type="button" class="btn btn-sm btn-danger" (click)="borrar(); $event.stopPropagation()">Borrar</button>
+    <p>Votos: <span class="d-inline-block" [@pulso]="destino.votes">{{ destino.votes }}</span></p>
+    <button type="button" class="btn btn-sm btn-success" appTrackearClick data-trackear-tags="voto-positivo"
+      (click)="voteUp(); $event.stopPropagation()">+1</button>
+    <button type="button" class="btn btn-sm btn-warning" appTrackearClick data-trackear-tags="voto-negativo"
+      (click)="voteDown(); $event.stopPropagation()">-1</button>
+    <button type="button" class="btn btn-sm btn-danger" appTrackearClick data-trackear-tags="borrar"
+      (click)="borrar(); $event.stopPropagation()">Borrar</button>
   </div>
 </div>
